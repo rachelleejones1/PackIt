@@ -4,6 +4,7 @@
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <title>In The Bag</title>
@@ -18,8 +19,10 @@
         <div class="row container">
             <h2 class="header">Where are you traveling to?</h2>
             <form>
+
                 <div class="input-field">
                     <input id="search" type="text" required>
+
                 </div>
             </form>
             <a class="btn-large teal lighten-2" href="#scroll" id="submit">Submit</a>
@@ -46,11 +49,17 @@
                                 <label for="add-item">Add an item</label>
                             </div>
                         </div>
-                        <div class="col s7 offset-s1 #e8f5e9 green lighten-5 z-depth-2" id="webcam"></div>
+
+                        <div class="col s7 offset-s1 #e8f5e9 green lighten-5 z-depth-2">
+                                <div id="weather"></div>
+                                <div id="webcam"></div>
+                        </div>
+
                     </div>
                 </div>
 
     </div>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="assets/javascript/app.js"></script>
@@ -61,6 +70,9 @@
             $('.parallax').parallax();
         });
     </script>
+    <script type="text/javascript" src="assets/javascript/weather.js"></script>
+
 </body>
+
 
 </html>
