@@ -11,54 +11,71 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper">
+
+    <div class="parallax-container">
+        <div class="parallax"><img src="assets/images/hawaii1.jpg"></div>
+    </div>
+    <div class="section white">
+        <div class="row container">
+            <h2 class="header">Where are you traveling to?</h2>
             <form>
-                <div class="input-field #aed581 light-green lighten-2">
-                    <input id="search" type="search" required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                    <button type="submit" id="submit">Submit</button>
+
+                <div class="input-field">
+                    <input id="search" type="text" required>
+
                 </div>
             </form>
+            <a class="btn-large teal lighten-2" href="#scroll">Submit</a>
         </div>
-    </nav>
-    <h3 class="text center #263238 blue-grey-text text-darken-4">"Life is short and the world is wide"</h3>
-    <div class="container">
-        <div class="row">
-            <div class="col s4 #e8f5e9 green lighten-5 z-depth-2"id="margin">
-                <ul class="collection with-header">
-                    <li class="collection-header">
-                        <h4>Packing List</h4>
-                    </li>
-                    <li class="collection-item">Tops</li>
-                    <li class="collection-item">Shorts</li>
-                    <li class="collection-item">Socks</li>
-                    <li class="collection-item">Shoes</li>
-                </ul>
-                <div class="input-field inline">
-                    <input id="add-item" type="text" class="validate">
-                    <label for="add-item">Add an item</label>
+    </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src="assets/images/hawaii2.jpg"></div>
+    </div>
+    <div class="section white" id="scroll">
+            <div class="container">
+                    <div class="row">
+                        <div class="col s4 #e8f5e9 green lighten-5 z-depth-2"id="margin">
+                            <ul class="collection with-header">
+                                <li class="collection-header">
+                                    <h4>Packing List</h4>
+                                </li>
+                                <li class="collection-item">Tops</li>
+                                <li class="collection-item">Shorts</li>
+                                <li class="collection-item">Socks</li>
+                                <li class="collection-item">Shoes</li>
+                            </ul>
+                            <div class="input-field inline">
+                                <input id="add-item" type="text" class="validate">
+                                <label for="add-item">Add an item</label>
+                            </div>
+                        </div>
+                        <div class="col s7 offset-s1 #e8f5e9 green lighten-5 z-depth-2">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
+                                        alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
+                                        autem commodi cum nihil?</p>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
+                                        alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
+                                        autem commodi cum nihil?</p>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
+                                        alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
+                                        autem commodi cum nihil?</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col s7 offset-s1 #e8f5e9 green lighten-5 z-depth-2">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
-                    alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
-                    autem commodi cum nihil?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
-                    alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
-                    autem commodi cum nihil?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
-                    alias quo, provident ullam adipisci temporibus accusantium! Sint deserunt minus provident alias,
-                    autem commodi cum nihil?</p>
-            </div>
-        </div>
+
     </div>
 
 
-   <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript" src="assets/javascript/weather.js"></script>
-    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.parallax').parallax();
+        });
+    </script>
+<script type="text/javascript" src="assets/javascript/weather.js"></script>
+</body>
+
 
 </html>
