@@ -1,3 +1,4 @@
+
 class WeatherDate {
     constructor(max, min, mainDescription, specificDescription, day) {
         this.max = max;
@@ -8,16 +9,16 @@ class WeatherDate {
     }
 }
 
+
 let days = [];
+
 
 $('#submit').on('click', function (event) {
     event.preventDefault();
     let queryCity = $('#search').val().trim();
     let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-    
-    $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
+$.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
         console.log(response);
-        
         let curDay = new Date(response.list[0].dt*1000);
         let curIndex = 0;
         for (i = 0; i < response.cnt; i++) {
@@ -87,5 +88,4 @@ function displayWeather () {
         $('#weather').append(dayInfo);
     }
 }
-
 
