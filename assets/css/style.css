@@ -1,4 +1,18 @@
+*{
+  box-sizing: border-box;
+}
+
 .parallax-container {
     height: 350px;
   }
-      
+
+  #webcam{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #webcam img{
+    width: 48%;
+    margin: 1%;
+
+  }
