@@ -1,4 +1,3 @@
-let days = [];
 
 class WeatherDate {
     constructor(max, min, mainDescription, specificDescription, day) {
@@ -11,12 +10,14 @@ class WeatherDate {
 }
 
 
+let days = [];
+
+
 $('#submit').on('click', function (event) {
     event.preventDefault();
     let queryCity = $('#search').val().trim();
     let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-
-    $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
+$.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
         console.log(response);
         let curDay = new Date(response.list[0].dt*1000);
         let curIndex = 0;
@@ -40,10 +41,51 @@ $('#submit').on('click', function (event) {
         }
         console.log(days)
     });
+    displayWeather();
 });
 
+function displayWeather () {
+    for (i = 0; i < days.length; i++) {
+        let maxMax = -1000;
+        let minMin = 1000;
+        let currentArr = days[i];
+        let descriptions = [];
+        for (j = 0; j < currentArr.length; j++) {
+            if (currentArr[j].max > maxMax) {
+                maxMax = currentArr[j].max;
+            }
+            if (currentArr[j].min < minMin) {
+                minMin = currentArr[j].min;
+            }
+            if (descriptions.includes(currentArr[j].specificDescription) === false) {
+                descriptions.push(currentArr[j].specificDescription);
+            }
+        }
+        let dayInfo = $('<div>');
+        let dayName = $('<h3>');
+        dayName.text(currentArr[0].day)
+        let tempInfo = $('<div>');
+        let dayMax = $('<p>');
+        dayMax.text(maxMax);
+        let dayMin = $('<p>');
+        dayMin.text(minMin);
+        let dayDescr = $('<div>');
 
-/*
-continue working on weather api call, display results attractively 
-somehow get 
-*/
+        for (k = 0; k < descriptions.length; k++) {
+            let descript = $('<p>');
+            descript.text(descriptions[k]);
+            dayDescr.append(descript);
+        }
+
+        tempInfo.append(dayMax);
+        tempInfo.append(dayMin);
+
+        dayInfo.append(dayName);
+        dayInfo.append(tempInfo);
+        dayInfo.append(dayDescr);
+
+        console.log(dayInfo);
+        $('#weather').append(dayInfo);
+    }
+}
+
