@@ -39,9 +39,10 @@ $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
                 response.list[i].weather[0].description,
                 day));
         }
-        console.log(days)
+        console.log(days);
+        displayWeather();
     });
-    displayWeather();
+    
 });
 
 function displayWeather () {
@@ -88,4 +89,3 @@ function displayWeather () {
         $('#weather').append(dayInfo);
     }
 }
-
