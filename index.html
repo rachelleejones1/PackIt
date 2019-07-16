@@ -5,6 +5,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/app.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <title>In The Bag</title>
 </head>
@@ -21,6 +24,7 @@
             </form>
         </div>
     </nav>
+    <input type="text" class="datepicker">
     <h3 class="text center #263238 blue-grey-text text-darken-4">"Life is short and the world is wide"</h3>
     <div class="container">
         <div class="row">
@@ -29,15 +33,15 @@
                     <li class="collection-header">
                         <h4>Packing List</h4>
                     </li>
-                    <li class="collection-item">Tops</li>
-                    <li class="collection-item">Shorts</li>
-                    <li class="collection-item">Socks</li>
-                    <li class="collection-item">Shoes</li>
+                    <li class="collection-item" id="add-item"></li>
+                    
                 </ul>
                 <div class="input-field inline">
-                    <input id="add-item" type="text" class="validate">
+                    <input id="add-this-item" type="text" class="validate">
                     <label for="add-item">Add an item</label>
+                    <button class="btn waves-effect waves-light" id="add-to-list" type="submit" name="action">Add</button>
                 </div>
+                
             </div>
             <div class="col s7 offset-s1 #e8f5e9 green lighten-5 z-depth-2">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic officia quidem numquam deserunt tenetur
@@ -53,8 +57,7 @@
         </div>
     </div>
 
-   <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </body>
 
 </html>
