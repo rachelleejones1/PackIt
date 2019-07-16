@@ -74,13 +74,17 @@ function webcamSearch() {
         method: "GET",
         url: queryURL,
         success: function(response){
-            console.log(response);
             $("#webcam").html('');
+            $("#webcam").append("<h3 class='text center'>Click image to view webcam</h3>");
             for (var i=0; i<4; i++){
                 var webcam = response.result.webcams[i].image.daylight.preview;
-                $("#webcam").append("<img src='" + webcam +"'>");
+                var link = response.result.webcams[i].player.day.link;
+                var newDiv = $("<div>");
+                $(newDiv).append("<a href='"+link+"' target='_blank''><img src='" + webcam +"'></a>");
+                $(newDiv).attr('id', 'web-img')
+                $("#webcam").append(newDiv);
+
            }
         }
     })
 }
-
