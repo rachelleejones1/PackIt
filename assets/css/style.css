@@ -11,8 +11,11 @@
     flex-wrap: wrap;
   }
 
-  #webcam img{
+  #web-img{
     width: 48%;
     margin: 1%;
+  }
 
+  #web-img a img {
+    max-width: 100%;
   }

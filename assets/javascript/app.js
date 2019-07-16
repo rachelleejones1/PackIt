@@ -12,29 +12,18 @@ if(localStorage.getItem("list") !== null) {
   });
 
     $(document).on("click", "#add-to-list", function(event) {
-
       event.preventDefault();
-
       var toPackItem = $("#add-this-item").val().trim(); 
-
       toPackArray.push(toPackItem);
       console.log(toPackArray);
-
       localStorage.setItem("list", JSON.stringify(toPackArray));
       JSON.parse(localStorage.getItem("list"));
-      
       updateList(toPackArray); 
-
-
-      $("#add-this-item").val("");
-
       toPackCount++;
-
     });
 
     function updateList(arr) {
       $("#add-item").html("");
-
       for (var i = 0; i < arr.length; i++) {
         var newLi = $("<li>").attr("id", "item-" + i).text(arr[i]);
         var button = $("<button>").attr({ "data-to-do": i, "class": "checkbox" }).text('x');
@@ -74,13 +63,17 @@ function webcamSearch() {
         method: "GET",
         url: queryURL,
         success: function(response){
-            console.log(response);
             $("#webcam").html('');
+            $("#webcam").append("<h3 class='text center'>Click image to view webcam</h3>");
             for (var i=0; i<4; i++){
                 var webcam = response.result.webcams[i].image.daylight.preview;
-                $("#webcam").append("<img src='" + webcam +"'>");
+                var link = response.result.webcams[i].player.day.link;
+                var newDiv = $("<div>");
+                $(newDiv).append("<a href='"+link+"' target='_blank''><img src='" + webcam +"'></a>");
+                $(newDiv).attr('id', 'web-img')
+                $("#webcam").append(newDiv);
+
            }
         }
     })
 }
-
