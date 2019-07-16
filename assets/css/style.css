@@ -2,6 +2,27 @@
   box-sizing: border-box;
 }
 
+.customColor {
+  background-color: #b2d8d6;
+}
+
+#submit:hover {
+  background-color: #85c1bc;
+}
+
+#add-to-list {
+  background-color: #85c1bc;
+}
+
+#add-to-list:hover {
+  background-color: #5da59c;
+}
+
+.container {
+  width: 90%;
+  max-width: 90%;
+}
+
 .parallax-container {
     height: 350px;
   }
@@ -19,4 +40,20 @@
 
   .sentenceCase {
     text-transform: capitalize;
+  }
+
+  #weather {
+    display: flex;
+  }
+
+  .weatherSection {
+    padding: 0 .5rem;
+  }
+
+  .weatherDay {
+    font-size: 1.75rem;
+  }
+
+  .topMargin {
+    margin-top: 2rem;
   }

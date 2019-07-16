@@ -1,26 +1,41 @@
-$("#submit").click(function () {
-    event.preventDefault();
-    webcamSearch();
-})
+$(document).ready(function() {
+    var firebaseConfig = {
+        apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
+        authDomain: "pack-your-bag-project.firebaseapp.com",
+        databaseURL: "https://pack-your-bag-project.firebaseio.com",
+        projectId: "pack-your-bag-project",
+        storageBucket: "",
+        messagingSenderId: "604698367094",
+        appId: "1:604698367094:web:a6470ea0bcfd991e"
+    };
 
-function webcamSearch() {
-    let destination = $("#country").val().trim();
-    let queryURL = "https://webcamstravel.p.rapidapi.com/webcams/list/country=" + destination + "?show=webcams:image,player"
-    $.ajax({
-        headers: {
-            "X-RapidAPI-Host": "webcamstravel.p.rapidapi.com",
-            "X-RapidAPI-Key": "27c7e87c7dmshda62b4854259734p18e751jsn4a9528e072f1",
-            },
-        data:"data",
-        method: "GET",
-        url: queryURL,
-        success: function(response){
-            console.log(response);
-            $("#webcam").html('');
-            for (var i=0; i<4; i++){
-                var webcam = response.result.webcams[i].image.daylight.preview;
-                $("#webcam").append("<img src='" + webcam +"'>");
-           }
-        }
+    firebase.initializeApp(firebaseConfig);
+
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    
+    
+    $('#newAccount').on('click', function(event) {
+        event.preventDefault();
+
+        ui.start('#firebaseui-auth-container', {
+            signInOptions: [
+              firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ],
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                  // User successfully signed in.
+                  // Return type determines whether we continue the redirect automatically
+                  // or whether we leave that to developer to handle.
+                  console.log('signed in')
+                  return false;
+                },
+                uiShown: function() {
+                  // The widget is rendered.
+                  // Hide the loader.
+                  // document.getElementById('loader').style.display = 'none';
+                }
+              },
+          });
     })
-}
+}) 
+   
