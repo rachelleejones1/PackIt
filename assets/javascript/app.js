@@ -63,7 +63,7 @@ $("#submit").click(function () {
 })
 
 function webcamSearch() {
-    let destination = $("#search").val().trim();
+    let destination = $("#country").val().trim();
     let queryURL = "https://webcamstravel.p.rapidapi.com/webcams/list/country=" + destination + "?show=webcams:image,player"
     $.ajax({
         headers: {
@@ -74,7 +74,8 @@ function webcamSearch() {
         method: "GET",
         url: queryURL,
         success: function(response){
-
+            console.log(response);
+            $("#webcam").html('');
             for (var i=0; i<4; i++){
                 var webcam = response.result.webcams[i].image.daylight.preview;
                 $("#webcam").append("<img src='" + webcam +"'>");
