@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/app.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <title>Pack Your Bags</title>
@@ -14,7 +17,7 @@
 <body>
 
     <div class="parallax-container">
-        <div class="parallax"><img src="assets/images/hawaii1.jpg"></div>
+        <div class="parallax"><img src="assets/images/mountain.jpeg"></div>
     </div>
     <div id="firebaseui-auth-container"></div>
     <div class="section white">
@@ -30,7 +33,7 @@
         </div>
     </div>
     <div class="parallax-container">
-        <div class="parallax"><img src="assets/images/hawaii2.jpg"></div>
+        <div class="parallax"><img src="assets/images/beach.jpeg"></div>
     </div>
     <div class="section white" id="scroll">
         <div class="container">
@@ -40,14 +43,12 @@
                         <li class="collection-header">
                             <h4>Packing List</h4>
                         </li>
-                        <li class="collection-item">Tops</li>
-                        <li class="collection-item">Shorts</li>
-                        <li class="collection-item">Socks</li>
-                        <li class="collection-item">Shoes</li>
+                        <li class="collection-item" id="add-item"></li>
                     </ul>
                     <div class="input-field inline">
-                        <input id="add-item" type="text" class="validate">
+                        <input id="add-this-item" type="text" class="validate">
                         <label for="add-item">Add an item</label>
+                        <button class="btn waves-effect waves-light" id="add-to-list" type="submit" name="action">Add</button>
                     </div>
                 </div>
 
@@ -63,7 +64,8 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js"></script>
@@ -76,7 +78,6 @@
         });
     </script>
     <script type="text/javascript" src="assets/javascript/weather.js"></script>
-
 </body>
 
 

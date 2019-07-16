@@ -32,10 +32,12 @@
     flex-wrap: wrap;
   }
 
-  #webcam img{
+  #web-img{
     width: 48%;
     margin: 1%;
+  }
 
+<<<<<<< HEAD
   }
 
   .sentenceCase {
@@ -57,3 +59,8 @@
   .topMargin {
     margin-top: 2rem;
   }
+=======
+  #web-img a img {
+    max-width: 100%;
+  }
+>>>>>>> 8cf345e0c184ba8842a4f50a799664baca1d0a48
