@@ -7,7 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/app.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
@@ -15,6 +14,13 @@
 </head>
 
 <body>
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <div id="firebaseui-auth-container"></div>
+        </div>
+    </div>
+
 
     <div class="parallax-container">
         <div class="parallax"><img src="assets/images/mountain.jpeg"></div>
@@ -39,17 +45,20 @@
         <div class="container">
             <div class="row">
                 <div class="col m12 l4 xl4 customColor z-depth-2 topMargin">
-                    <ul class="collection with-header">
+                    <ul class="collection with-header" id="displayList">
                         <li class="collection-header">
                             <h4>Packing List</h4>
                         </li>
                         <li class="collection-item" id="add-item"></li>
                     </ul>
                     <div class="input-field inline">
-                        <input id="add-this-item" type="text" class="validate">
-                        <label for="add-item">Add an item</label>
-                        <button class="btn waves-effect waves-light" id="add-to-list" type="submit" name="action">Add</button>
+                        <input id="add-this-item" type="text">
+                        <label for="add-this-item">Add an item</label>
+                        <button class="btn waves-effect waves-light" id="add-to-list" type="submit"
+                            name="action">Add</button>
                     </div>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="newAccount">Sign In</a>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#" id="signOut">Sign Out</a>
                 </div>
 
                 <div class="col m12 offset-m0 l7 offset-l1 xl7 offset-xl1 ">

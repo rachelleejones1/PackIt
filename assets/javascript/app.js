@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var firebaseConfig = {
+    let firebaseConfig = {
         apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
         authDomain: "pack-your-bag-project.firebaseapp.com",
         databaseURL: "https://pack-your-bag-project.firebaseio.com",
@@ -10,13 +10,13 @@ $(document).ready(function() {
     };
 
     firebase.initializeApp(firebaseConfig);
+    
 
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    
-    
+   /*
+    let ui = new firebaseui.auth.AuthUI(firebase.auth());
+
     $('#newAccount').on('click', function(event) {
         event.preventDefault();
-
         ui.start('#firebaseui-auth-container', {
             signInOptions: [
               firebase.auth.EmailAuthProvider.PROVIDER_ID
@@ -26,7 +26,9 @@ $(document).ready(function() {
                   // User successfully signed in.
                   // Return type determines whether we continue the redirect automatically
                   // or whether we leave that to developer to handle.
+                  console.log(authResult);
                   console.log('signed in')
+                  $('.modal').modal('close');
                   return false;
                 },
                 uiShown: function() {
@@ -37,7 +39,64 @@ $(document).ready(function() {
               },
           });
     })
+
+    $('#signOut').on('click', function(event) {
+        event.preventDefault();
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log('signed out')
+          }).catch(function(error) {
+            // An error happened.
+            console.log('error while signing out');
+          });
+    })
+    */
+
+    let database = firebase.database().ref('items');
+    let itemsToPack = [];
+
+
+
+    $('#add-to-list').on('click', function(event) {
+        event.preventDefault();
+        let itemName = $("#add-this-item").val().trim();
+        $('#add-this-item').val('');
+        if (itemsToPack.includes(itemName) === false) {
+            database.push(
+                itemName
+            );
+        }
+        console.log(itemsToPack);
+    });
+
+    database.on('child_added', function(snap) {
+        let newItem = snap.val();
+        itemsToPack.push(newItem);
+        console.log(newItem);
+        console.log(itemsToPack);
+        displayItems(itemsToPack);
+    });
+
 }) 
+
+
+function displayItems(arr) {
+    $('#displayList').html('<li class="collection-header"><h4>Packing List</h4></li>');
+    for (let j = 0; j < arr.length; j++) {
+        let newLi = $('<li>').addClass('collection-item').attr('id', 'item-' + j).text(arr[j]);
+        let button = $("<button>").attr({ "data-to-do": j, "class": "checkbox" }).text('x');
+        newLi.prepend(button);
+        $('#displayList').append(newLi);
+      }
+}
+
+
+
+/*
+
+<li class="collection-item" id="add-item"></li>
+
+authResult.user.uid
 
 var toPackCount = 0;
 var toPackArray = [];
@@ -55,6 +114,7 @@ if(localStorage.getItem("list") !== null) {
     $(document).on("click", "#add-to-list", function(event) {
       event.preventDefault();
       var toPackItem = $("#add-this-item").val().trim(); 
+      $('#add-this-item').val('');
       toPackArray.push(toPackItem);
       console.log(toPackArray);
       localStorage.setItem("list", JSON.stringify(toPackArray));
@@ -85,36 +145,5 @@ if(localStorage.getItem("list") !== null) {
     localStorage.setItem("list", JSON.stringify(toPackArray));
     console.log(toPackArray);
 
-    });
+    }); */
 
-$("#submit").click(function () {
-    event.preventDefault();
-    webcamSearch();
-})
-
-function webcamSearch() {
-    let destination = $("#country").val().trim();
-    let queryURL = "https://webcamstravel.p.rapidapi.com/webcams/list/country=" + destination + "?show=webcams:image,player"
-    $.ajax({
-        headers: {
-            "X-RapidAPI-Host": "webcamstravel.p.rapidapi.com",
-            "X-RapidAPI-Key": "27c7e87c7dmshda62b4854259734p18e751jsn4a9528e072f1",
-            },
-        data:"data",
-        method: "GET",
-        url: queryURL,
-        success: function(response){
-            $("#webcam").html('');
-            $("#webcam").append("<h3 class='text center'>Click image to view webcam</h3>");
-            for (var i=0; i<4; i++){
-                var webcam = response.result.webcams[i].image.daylight.preview;
-                var link = response.result.webcams[i].player.day.link;
-                var newDiv = $("<div>");
-                $(newDiv).append("<a href='"+link+"' target='_blank''><img src='" + webcam +"'></a>");
-                $(newDiv).attr('id', 'web-img')
-                $("#webcam").append(newDiv);
-
-           }
-        }
-    })
-}
