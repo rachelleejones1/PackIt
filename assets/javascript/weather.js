@@ -73,8 +73,28 @@ function displayWeather () {
         let dayDescr = $('<div>');
 
         for (k = 0; k < descriptions.length; k++) {
-            let descript = $('<p>');
-            descript.text(descriptions[k]);
+            let descript = $('<div>');
+            if (descriptions[k] === 'clear sky') {
+                descript.append('<img src="assets/images/ClearSky.svg" class="weatherIcon" alt="clear sky icon"/><p>Clear Sky</p>')
+            } else if (descriptions[k] === 'few clouds') {
+                descript.append('<img src="assets/images/FewClouds.svg" class="weatherIcon" alt="few clouds icon"/><p>Few Clouds</p>')
+            } else if (descriptions[k] === 'scattered clouds') {
+                descript.append('<img src="assets/images/ScatteredClouds.svg" class="weatherIcon" alt="scattered clouds icon"/><p>Scattered Clouds</p>')
+            } else if (descriptions[k] === 'broken clouds') {
+                descript.append('<img src="assets/images/BrokenClouds.svg" class="weatherIcon" alt="broken clouds icon"/><p>Broken CLouds</p>')
+            } else if (descriptions[k] === 'shower rain' || descriptions[k] === 'light rain') {
+                descript.append('<img src="assets/images/Showers.svg" class="weatherIcon" alt="shower rain icon"/><p>Showers</p>')
+            } else if (descriptions[k] === 'rain') {
+                descript.append('<img src="assets/images/Rain.svg" class="weatherIcon" alt="rain icon"/><p>Rain</p>')
+            } else if (descriptions[k] === 'thunderstorm') {
+                descript.append('<img src="assets/images/Thunderstorm.svg" class="weatherIcon" alt="thunderstorm icon"/><p>Thunderstorms</p>')
+            } else if (descriptions[k] === 'snow') {
+                descript.append('<img src="assets/images/Snow.svg" class="weatherIcon" alt="snow icon"/><p>Snow</p>')
+            } else if (descriptions[k] === 'mist') {
+                descript.append('<img src="assets/images/Mist.svg" class="weatherIcon" alt="mist icon"/><p>Mist</p>')
+            }    else {
+                descript.append('<p>' + descriptions[k] + '</p>');
+            }
             dayDescr.append(descript);
         }
 

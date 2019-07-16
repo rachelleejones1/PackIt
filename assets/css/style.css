@@ -16,3 +16,7 @@
     margin: 1%;
 
   }
+
+  .sentenceCase {
+    text-transform: capitalize;
+  }
