@@ -12,29 +12,18 @@ if(localStorage.getItem("list") !== null) {
   });
 
     $(document).on("click", "#add-to-list", function(event) {
-
       event.preventDefault();
-
       var toPackItem = $("#add-this-item").val().trim(); 
-
       toPackArray.push(toPackItem);
       console.log(toPackArray);
-
       localStorage.setItem("list", JSON.stringify(toPackArray));
       JSON.parse(localStorage.getItem("list"));
-      
       updateList(toPackArray); 
-
-
-      $("#add-this-item").val("");
-
       toPackCount++;
-
     });
 
     function updateList(arr) {
       $("#add-item").html("");
-
       for (var i = 0; i < arr.length; i++) {
         var newLi = $("<li>").attr("id", "item-" + i).text(arr[i]);
         var button = $("<button>").attr({ "data-to-do": i, "class": "checkbox" }).text('x');
