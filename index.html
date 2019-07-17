@@ -28,40 +28,42 @@
     <div id="firebaseui-auth-container"></div>
     <div class="section white">
         <div class="row container">
-            <h2 class="header">Where are you traveling to?</h2>
-            <form>
-
+            <h2 class="header">Trip Details</h2>
+            <form id="tripDetails">
                 <div class="input-field">
-                    <input id="search" type="text" placeholder="City" required>
+                    <input id="search" type="text" placeholder="Destination City" required>
+                </div>
+                <div class="input-field">
+                    <input id="duration" type="text" placeholder="Duration (days)" required>
                 </div>
             </form>
-            <a class="btn-large customColor" href="#scroll" id="submit">Submit</a>
+            <a class="btn-large customColor" href="#results" id="submit">Submit</a>
         </div>
     </div>
     <div class="parallax-container">
         <div class="parallax"><img src="assets/images/beach.jpeg"></div>
     </div>
-    <div class="section white" id="scroll">
+    <div class="section white displayNone" id="results">
         <div class="container">
             <div class="row">
-                <div class="col m12 l4 xl4 customColor z-depth-2 topMargin">
-                    <ul class="collection with-header" id="displayList">
-                        <li class="collection-header">
-                            <h4>Packing List</h4>
-                        </li>
-                        <li class="collection-item" id="add-item"></li>
-                    </ul>
-                    <div class="input-field inline">
-                        <input id="add-this-item" type="text">
-                        <label for="add-this-item">Add an item</label>
-                        <button class="btn waves-effect waves-light" id="add-to-list" type="submit"
-                            name="action">Add</button>
+                <div class="col m12 l5 xl5">
+                    <div class="customColor topMargin z-depth-2" id="packingList">
+                        <h4 class="center">Packing List</h4>
+                        <ul class="collection" id="displayList">
+                            <li class="collection-item" id="add-item"></li>
+                        </ul>
+                        <div class="input-field inline">
+                            <input id="add-this-item" type="text">
+                            <label for="add-this-item">Add an item</label>
+                            <button class="btn waves-effect waves-light" id="add-to-list" type="submit"
+                                name="action">Add</button>
+                        </div>
                     </div>
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="newAccount">Sign In</a>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="newAccount">Sign In To Save Your List</a>
                     <a class="waves-effect waves-light btn modal-trigger" href="#" id="signOut">Sign Out</a>
                 </div>
 
-                <div class="col m12 offset-m0 l7 offset-l1 xl7 offset-xl1 ">
+                <div class="col m12 l7 xl7">
                     <div id="weather" class="customColor topMargin z-depth-2"></div>
                     <div id="webcam" class="customColor topMargin z-depth-2"></div>
                 </div>
@@ -80,7 +82,6 @@
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    <script src="assets/javascript/app.js"></script>
     <script>
         $(document).ready(function () {
             $('.parallax').parallax();

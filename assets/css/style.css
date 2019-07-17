@@ -2,6 +2,15 @@
   box-sizing: border-box;
 }
 
+#tripDetails {
+  display: flex;
+  justify-content: space-between;
+}
+
+#tripDetails .input-field {
+  width: 48%;
+}
+
 .customColor {
   background-color: #b2d8d6;
 }
@@ -19,48 +28,83 @@
 }
 
 .container {
-  width: 90%;
-  max-width: 90%;
+  width: 95%;
+  max-width: 95%;
+}
+
+.row .col {
+  padding: 0 1.5rem;
 }
 
 .parallax-container {
     height: 350px;
   }
 
+  h4 {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
   #webcam{
     display: flex;
     flex-wrap: wrap;
+    padding: 1rem 1rem .25rem 1rem;
+    justify-content: space-between;
+  }
+
+  #webcam h4 {
+    width: 100%;
   }
 
   #web-img{
-    width: 48%;
-    margin: 1%;
+    width: 49%;
+    margin: 0 0 1% 0;
   }
-
-<<<<<<< HEAD
-  }
-
+  
   .sentenceCase {
     text-transform: capitalize;
   }
 
+  #packingList {
+    padding: 1rem;
+  }
+
   #weather {
     display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    justify-content: space-between;
+  }
+
+  #weather h4 {
+    width: 100%;
   }
 
   .weatherSection {
     padding: 0 .5rem;
+    width: 16.66%;
+    text-align: center;
   }
 
   .weatherDay {
     font-size: 1.75rem;
+    margin: 0;
   }
 
   .topMargin {
     margin-top: 2rem;
   }
-=======
+
   #web-img a img {
+    width: 100%;
     max-width: 100%;
   }
->>>>>>> 8cf345e0c184ba8842a4f50a799664baca1d0a48
+
+  .displayNone {
+    display: none;
+  }
+
+  .display {
+    display: block;
+  }
+

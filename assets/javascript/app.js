@@ -53,7 +53,10 @@ $(document).ready(function() {
     */
 
     let database = firebase.database().ref('items');
-    let itemsToPack = [];
+    let toDoArray = [];
+    let keyNames = [];
+
+    
 
 
 
@@ -61,34 +64,49 @@ $(document).ready(function() {
         event.preventDefault();
         let itemName = $("#add-this-item").val().trim();
         $('#add-this-item').val('');
-        if (itemsToPack.includes(itemName) === false) {
+        if (toDoArray.includes(itemName) === false) {
             database.push(
                 itemName
             );
         }
-        console.log(itemsToPack);
     });
 
     database.on('child_added', function(snap) {
+        console.log(snap);
         let newItem = snap.val();
-        itemsToPack.push(newItem);
         console.log(newItem);
-        console.log(itemsToPack);
-        displayItems(itemsToPack);
+        let itemKey = snap.key;
+        console.log(itemKey);
+        keyNames.push(itemKey);
+        toDoArray.push(newItem);
+        displayItems(toDoArray);
     });
+
+
+    $(document.body).on("click", ".deleteItem", function() {
+        let toPackNumber = $(this).attr("data-to-do");
+        database.child(keyNames[toPackNumber]).remove();
+        toDoArray.splice(toPackNumber, 1);
+        keyNames.splice(toPackNumber, 1);
+        console.log(toDoArray);
+        console.log(keyNames);
+        displayItems(toDoArray);
+        }); 
 
 }) 
 
 
 function displayItems(arr) {
-    $('#displayList').html('<li class="collection-header"><h4>Packing List</h4></li>');
+    $('#displayList').html('');
     for (let j = 0; j < arr.length; j++) {
         let newLi = $('<li>').addClass('collection-item').attr('id', 'item-' + j).text(arr[j]);
-        let button = $("<button>").attr({ "data-to-do": j, "class": "checkbox" }).text('x');
-        newLi.prepend(button);
+        let button = $("<button>").attr({ "data-to-do": j, "class": "deleteItem" }).text('x');
+        newLi.append(button);
         $('#displayList').append(newLi);
       }
 }
+
+
 
 
 
@@ -134,6 +152,7 @@ if(localStorage.getItem("list") !== null) {
     }
 
     localStorage.setItem("add-item", [])
+ 
 
     $(document.body).on("click", ".checkbox", function() {
 
@@ -145,5 +164,5 @@ if(localStorage.getItem("list") !== null) {
     localStorage.setItem("list", JSON.stringify(toPackArray));
     console.log(toPackArray);
 
-    }); */
-
+    }); 
+   */

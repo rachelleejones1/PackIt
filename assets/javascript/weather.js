@@ -1,3 +1,11 @@
+let toDoArray = [];
+let keyNames = [];
+
+let days = [];
+let webcamLocation = [];
+let averageMax;
+let averageMin;
+
 
 class WeatherDate {
     constructor(max, min, mainDescription, specificDescription, day) {
@@ -10,56 +18,198 @@ class WeatherDate {
 }
 
 
-let days = [];
-let webcamLocation = []
+$(document).ready(function () {
+    let firebaseConfig = {
+        apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
+        authDomain: "pack-your-bag-project.firebaseapp.com",
+        databaseURL: "https://pack-your-bag-project.firebaseio.com",
+        projectId: "pack-your-bag-project",
+        storageBucket: "",
+        messagingSenderId: "604698367094",
+        appId: "1:604698367094:web:a6470ea0bcfd991e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    let database = firebase.database().ref('items');
 
 
-$('#submit').on('click', function (event) {
-    event.preventDefault();
-    let queryCity = $('#search').val().trim();
-    let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-$.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
-        console.log(response);
-        let curDay = new Date(response.list[0].dt*1000);
-        let curIndex = 0;
-        let lat = response.city.coord.lat;
-        console.log(lat);
-        let lng = response.city.coord.lon;
-        console.log(lng);
-        for (i = 0; i < response.cnt; i++) {
-            let day = new Date(response.list[i].dt*1000);
-            if (day.getDate() != curDay.getDate()) {
-                curIndex++;
+    /*
+     let ui = new firebaseui.auth.AuthUI(firebase.auth());
+ 
+     $('#newAccount').on('click', function(event) {
+         event.preventDefault();
+         ui.start('#firebaseui-auth-container', {
+             signInOptions: [
+               firebase.auth.EmailAuthProvider.PROVIDER_ID
+             ],
+             callbacks: {
+                 signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                   // User successfully signed in.
+                   // Return type determines whether we continue the redirect automatically
+                   // or whether we leave that to developer to handle.
+                   console.log(authResult);
+                   console.log('signed in')
+                   $('.modal').modal('close');
+                   return false;
+                 },
+                 uiShown: function() {
+                   // The widget is rendered.
+                   // Hide the loader.
+                   // document.getElementById('loader').style.display = 'none';
+                 }
+               },
+           });
+     })
+ 
+     $('#signOut').on('click', function(event) {
+         event.preventDefault();
+         firebase.auth().signOut().then(function() {
+             // Sign-out successful.
+             console.log('signed out')
+           }).catch(function(error) {
+             // An error happened.
+             console.log('error while signing out');
+           });
+     })
+     */
+
+     function clearData() {
+        //if user is logged in then don't do this! 
+        toDoArray = [];
+        console.log(toDoArray);
+        database.remove();
+     }
+
+
+    $('#submit').on('click', function(event) {
+        event.preventDefault();
+        clearData();
+        let duration = $('#duration').val().trim();
+        let queryCity = $('#search').val().trim();
+        let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
+        $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
+            console.log(response);
+            let curDay = new Date(response.list[0].dt * 1000);
+            let curIndex = 0;
+            let lat = response.city.coord.lat;
+            console.log(lat);
+            let lng = response.city.coord.lon;
+            let highSum = 0;
+            let lowSum = 0;
+            console.log(lng);
+            for (let i = 0; i < response.cnt; i++) {
+                let day = new Date(response.list[i].dt * 1000);
+                if (day.getDate() != curDay.getDate()) {
+                    curIndex++;
+                }
+                curDay = day;
+                if (days.length <= curIndex) {
+                    days.push([]);
+                }
+                days[curIndex].push(new WeatherDate(
+                    response.list[i].main.temp_max,
+                    response.list[i].main.temp_min,
+                    response.list[i].weather[0].main,
+                    response.list[i].weather[0].description,
+                    day));
+                highSum += response.list[i].main.temp_max;
+                lowSum += response.list[i].main.temp_min;
             }
-            curDay = day;
-
-            if (days.length <= curIndex) {
-                days.push([]);
+            averageMax = highSum / 40;
+            if (averageMax > 65) {
+                database.once('value', function(initial) {
+                    let content = initial.val();
+                    console.log(content);
+                    console.log(duration);
+                    if (content === null) {
+                        let warmSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of shorts`, `${duration} warm weather shirts`, `${Math.round(duration / 2)} pajamas`, 'swimsuit', 'light jacket', 'sandals', 'tennis shoes', 'sunglasses', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                        for (let i=0; i < warmSuggestedItems.length; i++) {
+                            database.push(
+                                warmSuggestedItems[i]
+                            );
+                        }
+                    }
+                });
+            } else {
+                database.once('value', function(initial) {
+                    let content = initial.val();
+                    console.log(content);
+                    console.log(duration);
+                    if (content === null) {
+                        let coldSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of pants`, `${duration} shirts`, `${Math.round(duration / 2)} pajamas`, 'sweater', 'jacket', 'tennis shoes', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                        for (let i=0; i < coldSuggestedItems.length; i++) {
+                            database.push(
+                                coldSuggestedItems[i]
+                            );
+                        }
+                    }
+                });
             }
+            averageMin = lowSum / 40;
+            console.log(days);
+            webcamLocation.push(lat);
+            webcamLocation.push(lng);
+            displayWeather();
+            webcamSearch();
+        
 
-            days[curIndex].push(new WeatherDate(
-                response.list[i].main.temp_max,
-                response.list[i].main.temp_min,
-                response.list[i].weather[0].main,
-                response.list[i].weather[0].description,
-                day));
-        }
-        console.log(days);
-        webcamLocation.push(lat);
-        webcamLocation.push(lng);
-        displayWeather();
-        webcamSearch();
+            database.on('child_added', function(snap) {
+                console.log(snap);
+                let newItem = snap.val();
+                console.log(newItem);
+                let itemKey = snap.key;
+                console.log(itemKey);
+                keyNames.push(itemKey);
+                toDoArray.push(newItem);
+                displayItems(toDoArray);
+            });
+        });
     });
-    
+
+    $('#add-to-list').on('click', function(event) {
+        event.preventDefault();
+        let itemName = $("#add-this-item").val().trim();
+        $('#add-this-item').val('');
+        if (toDoArray.includes(itemName) === false) {
+            database.push(
+                itemName
+            );
+        }
+    });
+
+    $(document.body).on("click", ".deleteItem", function () {
+        let toPackNumber = $(this).attr("data-to-do");
+        database.child(keyNames[toPackNumber]).remove();
+        toDoArray.splice(toPackNumber, 1);
+        keyNames.splice(toPackNumber, 1);
+        console.log(toDoArray);
+        console.log(keyNames);
+        displayItems(toDoArray);
+    });
 });
 
-function displayWeather () {
-    for (i = 0; i < days.length; i++) {
+
+function displayItems(arr) {
+    $('#displayList').html('');
+    for (let j = 0; j < arr.length; j++) {
+        let newLi = $('<li>').addClass('collection-item').attr('id', 'item-' + j).text(arr[j]);
+        let button = $("<button>").attr({ "data-to-do": j, "class": "deleteItem" }).text('x');
+        newLi.append(button);
+        $('#displayList').append(newLi);
+    }
+}
+
+
+function displayWeather() {
+    $('#weather').html('');
+    $('#weather').append('<h4 class="center">Forecast</h4>');
+    for (let i = 0; i < days.length; i++) {
         let maxMax = -1000;
         let minMin = 1000;
         let currentArr = days[i];
         let descriptions = [];
-        for (j = 0; j < currentArr.length; j++) {
+        for (let j = 0; j < currentArr.length; j++) {
             if (currentArr[j].max > maxMax) {
                 maxMax = currentArr[j].max;
             }
@@ -69,11 +219,10 @@ function displayWeather () {
             if (descriptions.includes(currentArr[j].specificDescription) === false) {
                 descriptions.push(currentArr[j].specificDescription);
             }
-
         }
         let dayInfo = $('<div>');
         dayInfo.addClass('weatherSection');
-        let dayName = $('<h3>');
+        let dayName = $('<h5>');
         dayName.addClass('weatherDay');
         let dateInfo = currentArr[0].day;
         let daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -81,13 +230,14 @@ function displayWeather () {
         let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         let month = months[dateInfo.getMonth()];
         let dayNum = dateInfo.getDate();
-        dayName.html(dayOfWeek+ '<br>' + month + ' ' + dayNum);
+        dayName.html(dayOfWeek + '<br>' + month + ' ' + dayNum);
         let tempInfo = $('<div>');
         let dayMax = $('<p>');
         dayMax.html('High: ' + maxMax + '&#176;F');
         let dayMin = $('<p>');
         dayMin.html('Low: ' + minMin + '&#176;F');
         let dayDescr = $('<div>');
+        dayDescr.addClass('descrContainer');
         let descript = $('<div>');
 
         if (descriptions[0] === 'clear sky') {
@@ -108,13 +258,13 @@ function displayWeather () {
             descript.html('<img src="assets/images/Snow.svg" class="weatherIcon" alt="snow icon"/><p>Snow</p>')
         } else if (descriptions[0] === 'mist') {
             descript.html('<img src="assets/images/Mist.svg" class="weatherIcon" alt="mist icon"/><p>Mist</p>')
-        }    else {
+        } else {
             descript.html('<p class="sentenceCase">' + descriptions[0] + '</p>');
         }
 
         dayDescr.append(descript);
 
-        /*for (k = 0; k < descriptions.length; k++) {
+        /*for (let k = 0; k < descriptions.length; k++) {
             let descript = $('<div>');
             if (descriptions[k] === 'clear sky') {
                 descript.append('<img src="assets/images/ClearSky.svg" class="weatherIcon" alt="clear sky icon"/><p>Clear Sky</p>')
@@ -163,20 +313,68 @@ function webcamSearch() {
         headers: {
             "X-RapidAPI-Host": "webcamstravel.p.rapidapi.com",
             "X-RapidAPI-Key": "27c7e87c7dmshda62b4854259734p18e751jsn4a9528e072f1",
-            },
-        data:"data",
+        },
+        data: "data",
         method: "GET",
         url: queryURL,
-        success: function(response){
-            console.log(response);
+        success: function (response) {
             $("#webcam").html('');
-            for (var i=0; i<4; i++){
+            $("#webcam").append("<h4 class='center'>Click Images to View Live Webcams</h4>");
+            for (var i = 0; i < 4; i++) {
                 var webcam = response.result.webcams[i].image.daylight.preview;
-                $("#webcam").append("<img src='" + webcam +"'>");
-           }
+                var link = response.result.webcams[i].player.day.link;
+                var newDiv = $("<div>");
+                $(newDiv).append("<a href='" + link + "' target='_blank''><img src='" + webcam + "'></a>");
+                $(newDiv).attr('id', 'web-img')
+                $("#webcam").append(newDiv);
+            }
+            $('#results').attr('class', 'display');
         },
-        error: function() {
+        error: function () {
             $('#webcam').append('<p>An error occurred when calling the Webcams Travel API. It\'s possible there are no webcams near your destination.</p>');
         }
     })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+Flow: 
+user puts in destination and duration of trip
+calls weather api 
+display weather info
+if above 65 display warm packing list
+if below then cold packing list
+use coordinates returned from weather search in webcam api call
+display webcams
+
+on refresh if user is not logged in then delete all info from firebase -- if multiple users are using at same time this may be a problem if warm/cold packing list is in firebase root...
+
+if user is logged in display their saved packing list --  what if they are going to destination that is cold/warm -- should they have two packing lists? thinking no...
+    allow users to name packing list when saved and choose to display that packing list
+
+*/
+
+
+
