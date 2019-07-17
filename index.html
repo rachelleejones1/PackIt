@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -26,7 +27,7 @@
         <div class="parallax"><img src="assets/images/mountain.jpeg"></div>
     </div>
     <div id="firebaseui-auth-container"></div>
-    <div class="section white">
+    <div class="section white" id="userInputs">
         <div class="row container">
             <h2 class="header">Trip Details</h2>
             <form id="tripDetails">
@@ -37,41 +38,52 @@
                     <input id="duration" type="text" placeholder="Duration (days)" required>
                 </div>
             </form>
-            <a class="btn-large customColor" href="#results" id="submit">Submit</a>
+            <button class="btn-large" id="submit">Submit</button>
         </div>
-    </div>
-    <div class="parallax-container">
-        <div class="parallax"><img src="assets/images/beach.jpeg"></div>
     </div>
     <div class="section white displayNone" id="results">
         <div class="container">
+            <div class="row resultsHeader">
+                <h3>Destination: <span class="sentenceCase" id="destName"></span></h3>
+                <a class="waves-effect waves-light btn-large" id="newSearch">New Search</a>
+            </div>
             <div class="row">
                 <div class="col m12 l5 xl5">
                     <div class="customColor topMargin z-depth-2" id="packingList">
-                        <h4 class="center">Packing List</h4>
-                        <ul class="collection" id="displayList">
-                            <li class="collection-item" id="add-item"></li>
-                        </ul>
-                        <div class="input-field inline">
-                            <input id="add-this-item" type="text">
-                            <label for="add-this-item">Add an item</label>
-                            <button class="btn waves-effect waves-light" id="add-to-list" type="submit"
-                                name="action">Add</button>
+                        <div id="sectionToggle" data-toggle="closed">
+                            <h4>Packing List</h4>
+                            <img class="displayWhileSmall" id="toggleIcon" src="assets/images/expandSection.svg"
+                                alt="expand section arrow">
+                        </div>
+                        <div id="collapsibleSection" class="displayNoneSmall">
+                            <ul class="collection" id="displayList">
+                                <li class="collection-item" id="add-item"></li>
+                            </ul>
+                            <div class="input-field addSection">
+                                <input id="add-this-item" type="text">
+                                <label for="add-this-item">New Item</label>
+                                <button class="btn waves-effect waves-light" id="add-to-list" type="submit"
+                                    name="action">Add</button>
+                            </div>
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="newAccount">Sign In
+                                To Save Your List</a>
                         </div>
                     </div>
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="newAccount">Sign In To Save Your List</a>
-                    <a class="waves-effect waves-light btn modal-trigger" href="#" id="signOut">Sign Out</a>
+
+                    <a class="waves-effect waves-light btn modal-trigger displayNone" href="#" id="signOut">Sign Out</a>
                 </div>
 
                 <div class="col m12 l7 xl7">
                     <div id="weather" class="customColor topMargin z-depth-2"></div>
                     <div id="webcam" class="customColor topMargin z-depth-2"></div>
                 </div>
-
             </div>
         </div>
-
     </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src="assets/images/beach.jpeg"></div>
+    </div>
+
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

@@ -7,6 +7,8 @@ let averageMax;
 let averageMin;
 
 
+
+
 class WeatherDate {
     constructor(max, min, mainDescription, specificDescription, day) {
         this.max = max;
@@ -74,19 +76,32 @@ $(document).ready(function () {
      })
      */
 
-     function clearData() {
-        //if user is logged in then don't do this! 
+     $('#newSearch').on('click', function(event) {
+        event.preventDefault();
+        //if user is logged in then keep their saved list and display that, possibly let them choose which list? 
+        $('#userInputs').attr('class', 'display');
+        $('#results').attr('class', 'displayNone');
         toDoArray = [];
+        keyNames = [];
+        days = [];
+        webcamLocation = [];
         console.log(toDoArray);
+        $('#displayList').html('');
+        $('#weather').html('');
+        $("#webcam").html('');
+        $('#duration').val('');
+        $('#search').val('');
+        $('#destName').html('');
         database.remove();
-     }
+     });
 
 
     $('#submit').on('click', function(event) {
         event.preventDefault();
-        clearData();
+        $('#userInputs').attr('class', 'displayNone');
         let duration = $('#duration').val().trim();
         let queryCity = $('#search').val().trim();
+        $('#destName').html(queryCity);
         let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
         $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
             console.log(response);
@@ -152,19 +167,18 @@ $(document).ready(function () {
             webcamLocation.push(lng);
             displayWeather();
             webcamSearch();
-        
-
-            database.on('child_added', function(snap) {
-                console.log(snap);
-                let newItem = snap.val();
-                console.log(newItem);
-                let itemKey = snap.key;
-                console.log(itemKey);
-                keyNames.push(itemKey);
-                toDoArray.push(newItem);
-                displayItems(toDoArray);
-            });
         });
+    });
+
+    database.on('child_added', function(snap) {
+        console.log(snap);
+        let newItem = snap.val();
+        console.log(newItem);
+        let itemKey = snap.key;
+        console.log(itemKey);
+        keyNames.push(itemKey);
+        toDoArray.push(newItem);
+        displayItems(toDoArray);
     });
 
     $('#add-to-list').on('click', function(event) {
@@ -187,14 +201,34 @@ $(document).ready(function () {
         console.log(keyNames);
         displayItems(toDoArray);
     });
+
 });
+
+$('#sectionToggle').on('click', function(event) {
+    event.preventDefault();
+    if ($(this).attr('data-toggle') === 'closed') {
+        $('#collapsibleSection').attr('class', 'displaySection');
+        $('#toggleIcon').attr('src', 'assets/images/collapseSection.svg');
+        $('#toggleIcon').attr('alt', 'collapse section arrow');
+        $(this).attr('data-toggle', 'open');
+    } else {
+        $('#collapsibleSection').attr('class', 'displayNoneSmall');
+        $('#toggleIcon').attr('src', 'assets/images/expandSection.svg');
+        $('#toggleIcon').attr('alt', 'expand section arrow');        
+        $(this).attr('data-toggle', 'closed');
+    }
+});
+
 
 
 function displayItems(arr) {
     $('#displayList').html('');
     for (let j = 0; j < arr.length; j++) {
-        let newLi = $('<li>').addClass('collection-item').attr('id', 'item-' + j).text(arr[j]);
-        let button = $("<button>").attr({ "data-to-do": j, "class": "deleteItem" }).text('x');
+        let newLi = $('<li>').addClass('collection-item').attr('id', 'item-' + j);
+        let checkboxContent = `<label><input type="checkbox" /><span>${arr[j]}</span></label>`;
+        let button = $("<button>").attr({ "data-to-do": j, "class": "deleteItem" }).html('<i class="material-icons close">close</i>');
+        button.addClass('waves-effect waves-light btn-small')
+        newLi.append(checkboxContent);
         newLi.append(button);
         $('#displayList').append(newLi);
     }
@@ -203,7 +237,7 @@ function displayItems(arr) {
 
 function displayWeather() {
     $('#weather').html('');
-    $('#weather').append('<h4 class="center">Forecast</h4>');
+    $('#weather').append(`<h4>Forecast</h4>`);
     for (let i = 0; i < days.length; i++) {
         let maxMax = -1000;
         let minMin = 1000;
@@ -319,8 +353,8 @@ function webcamSearch() {
         url: queryURL,
         success: function (response) {
             $("#webcam").html('');
-            $("#webcam").append("<h4 class='center'>Click Images to View Live Webcams</h4>");
-            for (var i = 0; i < 4; i++) {
+            $("#webcam").append(`<h4>Click Images to View Live Webcams</h4>`);
+            for (var i = 0; i < 6; i++) {
                 var webcam = response.result.webcams[i].image.daylight.preview;
                 var link = response.result.webcams[i].player.day.link;
                 var newDiv = $("<div>");
@@ -335,8 +369,6 @@ function webcamSearch() {
         }
     })
 }
-
-
 
 
 
@@ -373,7 +405,7 @@ on refresh if user is not logged in then delete all info from firebase -- if mul
 
 if user is logged in display their saved packing list --  what if they are going to destination that is cold/warm -- should they have two packing lists? thinking no...
     allow users to name packing list when saved and choose to display that packing list
-
+    if user saves packing list store checked status somehow 
 */
 
 
