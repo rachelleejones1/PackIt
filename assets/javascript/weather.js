@@ -19,8 +19,12 @@ class WeatherDate {
     }
 }
 
+$(document).ready(function () {
+    $('.parallax').parallax();
+});
 
 $(document).ready(function () {
+    $('.modal').modal();
     let firebaseConfig = {
         apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
         authDomain: "pack-your-bag-project.firebaseapp.com",
@@ -36,7 +40,7 @@ $(document).ready(function () {
     let database = firebase.database().ref('items');
 
 
-    /*
+    
      let ui = new firebaseui.auth.AuthUI(firebase.auth());
  
      $('#newAccount').on('click', function(event) {
@@ -51,8 +55,10 @@ $(document).ready(function () {
                    // Return type determines whether we continue the redirect automatically
                    // or whether we leave that to developer to handle.
                    console.log(authResult);
-                   console.log('signed in')
+                   console.log('signed in');
                    $('.modal').modal('close');
+                   let dbKey = authResult.user.uid;
+                   console.log(dbKey);
                    return false;
                  },
                  uiShown: function() {
@@ -64,7 +70,7 @@ $(document).ready(function () {
            });
      })
  
-     $('#signOut').on('click', function(event) {
+     /*$('#signOut').on('click', function(event) {
          event.preventDefault();
          firebase.auth().signOut().then(function() {
              // Sign-out successful.
@@ -73,8 +79,8 @@ $(document).ready(function () {
              // An error happened.
              console.log('error while signing out');
            });
-     })
-     */
+     })*/
+     
 
      $('#newSearch').on('click', function(event) {
         event.preventDefault();
@@ -98,12 +104,14 @@ $(document).ready(function () {
 
     $('#submit').on('click', function(event) {
         event.preventDefault();
-        $('#userInputs').attr('class', 'displayNone');
         let duration = $('#duration').val().trim();
         let queryCity = $('#search').val().trim();
         $('#destName').html(queryCity);
         let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-        $.ajax({ url: weatherQuery, method: 'GET' }).then(function (response) {
+        $.ajax({ url: weatherQuery, method: 'GET', error: function() {
+            alert('Something went wrong');
+        }}).then(function (response) {
+            $('#userInputs').attr('class', 'displayNone');
             console.log(response);
             let curDay = new Date(response.list[0].dt * 1000);
             let curIndex = 0;
