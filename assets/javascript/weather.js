@@ -24,11 +24,8 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-<<<<<<< HEAD
     $('.modal').modal();
-=======
-    $(".modal").modal();
->>>>>>> b0601b598cc7c4c2d560d015fdc5cefe8945abb2
+
     let firebaseConfig = {
         apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
         authDomain: "pack-your-bag-project.firebaseapp.com",
@@ -44,49 +41,59 @@ $(document).ready(function () {
     let database = firebase.database().ref('items');
 
 
-    
-     let ui = new firebaseui.auth.AuthUI(firebase.auth());
- 
-     $('#newAccount').on('click', function(event) {
-         event.preventDefault();
-         ui.start('#firebaseui-auth-container', {
-             signInOptions: [
-               firebase.auth.EmailAuthProvider.PROVIDER_ID
-             ],
-             callbacks: {
-                 signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                   // User successfully signed in.
-                   // Return type determines whether we continue the redirect automatically
-                   // or whether we leave that to developer to handle.
-                   console.log(authResult);
-                   console.log('signed in');
-                   $('.modal').modal('close');
-                   let dbKey = authResult.user.uid;
-                   console.log(dbKey);
-                   return false;
-                 },
-                 uiShown: function() {
-                   // The widget is rendered.
-                   // Hide the loader.
-                   // document.getElementById('loader').style.display = 'none';
-                 }
-               },
-           });
-     })
- 
-     /*$('#signOut').on('click', function(event) {
-         event.preventDefault();
-         firebase.auth().signOut().then(function() {
-             // Sign-out successful.
-             console.log('signed out')
-           }).catch(function(error) {
-             // An error happened.
-             console.log('error while signing out');
-           });
-     })*/
-     
+    let ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-     $('#newSearch').on('click', function(event) {
+    $('#newAccount').on('click', function (event) {
+        event.preventDefault();
+        ui.start('#firebaseui-auth-container', {
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ],
+            callbacks: {
+                signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
+                    console.log(authResult);
+                    console.log('signed in');
+                    $('.modal').modal('close');
+                    dbKey = authResult.user.uid;
+                    console.log(dbKey);
+                    userNode(dbKey);
+                    return false;
+                },
+                uiShown: function () {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    // document.getElementById('loader').style.display = 'none';
+                }
+            },
+        });
+    })
+
+    function userNode(userId) {
+        let databaseRoot = firebase.database();
+        let userRef = databaseRoot.ref('users');
+        userRef.child(userId).set({
+            items: ['sunglasses', 'shorts', 'pajamas']
+        });
+    }
+
+
+
+    /*$('#signOut').on('click', function(event) {
+        event.preventDefault();
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log('signed out')
+          }).catch(function(error) {
+            // An error happened.
+            console.log('error while signing out');
+          });
+    })*/
+
+
+    $('#newSearch').on('click', function (event) {
         event.preventDefault();
         //if user is logged in then keep their saved list and display that, possibly let them choose which list? 
         $('#userInputs').attr('class', 'display');
@@ -103,99 +110,103 @@ $(document).ready(function () {
         $('#search').val('');
         $('#destName').html('');
         database.remove();
-     });
-
-
-    $('#submit').on('click', function(event) {
-        event.preventDefault();
-<<<<<<< HEAD
-=======
-        let search = $("#search").val().trim();
-        let duration = $("#duration").val().trim();
-        if (search === "" || duration < 1){
-            $('#invalid-modal').modal('open');
-            
-        } else {
-                   $('#userInputs').attr('class', 'displayNone');
->>>>>>> b0601b598cc7c4c2d560d015fdc5cefe8945abb2
-        let duration = $('#duration').val().trim();
-        let queryCity = $('#search').val().trim();
-        $('#destName').html(queryCity);
-        let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-        $.ajax({ url: weatherQuery, method: 'GET', error: function() {
-            alert('Something went wrong');
-        }}).then(function (response) {
-            $('#userInputs').attr('class', 'displayNone');
-            console.log(response);
-            let curDay = new Date(response.list[0].dt * 1000);
-            let curIndex = 0;
-            let lat = response.city.coord.lat;
-            console.log(lat);
-            let lng = response.city.coord.lon;
-            let highSum = 0;
-            let lowSum = 0;
-            console.log(lng);
-            for (let i = 0; i < response.cnt; i++) {
-                let day = new Date(response.list[i].dt * 1000);
-                if (day.getDate() != curDay.getDate()) {
-                    curIndex++;
-                }
-                curDay = day;
-                if (days.length <= curIndex) {
-                    days.push([]);
-                }
-                days[curIndex].push(new WeatherDate(
-                    response.list[i].main.temp_max,
-                    response.list[i].main.temp_min,
-                    response.list[i].weather[0].main,
-                    response.list[i].weather[0].description,
-                    day));
-                highSum += response.list[i].main.temp_max;
-                lowSum += response.list[i].main.temp_min;
-            }
-            averageMax = highSum / 40;
-            if (averageMax > 65) {
-                database.once('value', function(initial) {
-                    let content = initial.val();
-                    console.log(content);
-                    console.log(duration);
-                    if (content === null) {
-                        let warmSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of shorts`, `${duration} warm weather shirts`, `${Math.round(duration / 2)} pajamas`, 'swimsuit', 'light jacket', 'sandals', 'tennis shoes', 'sunglasses', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
-                        for (let i=0; i < warmSuggestedItems.length; i++) {
-                            database.push(
-                                warmSuggestedItems[i]
-                            );
-                        }
-                    }
-                });
-            } else {
-                database.once('value', function(initial) {
-                    let content = initial.val();
-                    console.log(content);
-                    console.log(duration);
-                    if (content === null) {
-                        let coldSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of pants`, `${duration} shirts`, `${Math.round(duration / 2)} pajamas`, 'sweater', 'jacket', 'tennis shoes', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
-                        for (let i=0; i < coldSuggestedItems.length; i++) {
-                            database.push(
-                                coldSuggestedItems[i]
-                            );
-                        }
-                    }
-                });
-            }
-            averageMin = lowSum / 40;
-            console.log(days);
-            webcamLocation.push(lat);
-            webcamLocation.push(lng);
-            displayWeather();
-            webcamSearch();
-        }); 
-        }
-
-
     });
 
-    database.on('child_added', function(snap) {
+
+    $('#submit').on('click', function (event) {
+        event.preventDefault();
+        let search = $("#search").val().trim();
+        if (search === "" || duration < 1) {
+            $('#invalid-modal').modal('open');
+        } else {
+            let queryCity = $("#search").val().trim();
+            let duration = $("#duration").val().trim();
+            $('#userInputs').attr('class', 'displayNone');
+            $('#destName').html(queryCity);
+            let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
+            
+            
+            $.ajax({
+                url: weatherQuery, method: 'GET', error: function () {
+                    $('#weatherError-modal').modal('open');
+                }
+            }).then(function (response) {
+                $('#userInputs').attr('class', 'displayNone');
+                console.log(response);
+                let curDay = new Date(response.list[0].dt * 1000);
+                let curIndex = 0;
+                let lat = response.city.coord.lat;
+                console.log(lat);
+                let lng = response.city.coord.lon;
+                let highSum = 0;
+                let lowSum = 0;
+                console.log(lng);
+                for (let i = 0; i < response.cnt; i++) {
+                    let day = new Date(response.list[i].dt * 1000);
+                    if (day.getDate() != curDay.getDate()) {
+                        curIndex++;
+                    }
+                    curDay = day;
+                    if (days.length <= curIndex) {
+                        days.push([]);
+                    }
+                    days[curIndex].push(new WeatherDate(
+                        response.list[i].main.temp_max,
+                        response.list[i].main.temp_min,
+                        response.list[i].weather[0].main,
+                        response.list[i].weather[0].description,
+                        day));
+                    highSum += response.list[i].main.temp_max;
+                    lowSum += response.list[i].main.temp_min;
+                }
+                averageMax = highSum / 40;
+                averageMin = lowSum / 40;
+
+
+                
+                if (averageMax > 65) {
+                    database.once('value', function (initial) {
+                        let content = initial.val();
+                        console.log(content);
+                        console.log(duration);
+                        if (content === null) {
+                            let warmSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of shorts`, `${duration} warm weather shirts`, `${Math.round(duration / 2)} pajamas`, 'swimsuit', 'light jacket', 'sandals', 'tennis shoes', 'sunglasses', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                            for (let i = 0; i < warmSuggestedItems.length; i++) {
+                                database.push(
+                                    warmSuggestedItems[i]
+                                );
+                            }
+                        }
+                    });
+                } else {
+                    database.once('value', function (initial) {
+                        let content = initial.val();
+                        console.log(content);
+                        console.log(duration);
+                        if (content === null) {
+                            let coldSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of pants`, `${duration} shirts`, `${Math.round(duration / 2)} pajamas`, 'sweater', 'jacket', 'tennis shoes', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                            for (let i = 0; i < coldSuggestedItems.length; i++) {
+                                database.push(
+                                    coldSuggestedItems[i]
+                                );
+                            }
+                        }
+                    });
+                }
+
+
+
+                
+                console.log(days);
+                webcamLocation.push(lat);
+                webcamLocation.push(lng);
+                displayWeather();
+                webcamSearch();
+            });
+        }
+    });
+
+    database.on('child_added', function (snap) {
         console.log(snap);
         let newItem = snap.val();
         console.log(newItem);
@@ -206,7 +217,8 @@ $(document).ready(function () {
         displayItems(toDoArray);
     });
 
-    $('#add-to-list').on('click', function(event) {
+    /*
+    $('#add-to-list').on('click', function (event) {
         event.preventDefault();
         let itemName = $("#add-this-item").val().trim();
         $('#add-this-item').val('');
@@ -216,7 +228,9 @@ $(document).ready(function () {
             );
         }
     });
+    */
 
+    /*
     $(document.body).on("click", ".deleteItem", function () {
         let toPackNumber = $(this).attr("data-to-do");
         database.child(keyNames[toPackNumber]).remove();
@@ -226,10 +240,11 @@ $(document).ready(function () {
         console.log(keyNames);
         displayItems(toDoArray);
     });
+    */
 
 });
 
-$('#sectionToggle').on('click', function(event) {
+$('#sectionToggle').on('click', function (event) {
     event.preventDefault();
     if ($(this).attr('data-toggle') === 'closed') {
         $('#collapsibleSection').attr('class', 'displaySection');
@@ -239,13 +254,13 @@ $('#sectionToggle').on('click', function(event) {
     } else {
         $('#collapsibleSection').attr('class', 'displayNoneSmall');
         $('#toggleIcon').attr('src', 'assets/images/expandSection.svg');
-        $('#toggleIcon').attr('alt', 'expand section arrow');        
+        $('#toggleIcon').attr('alt', 'expand section arrow');
         $(this).attr('data-toggle', 'closed');
     }
 });
 
 
-
+/*
 function displayItems(arr) {
     $('#displayList').html('');
     for (let j = 0; j < arr.length; j++) {
@@ -258,7 +273,7 @@ function displayItems(arr) {
         $('#displayList').append(newLi);
     }
 }
-
+*/
 
 function displayWeather() {
     $('#weather').html('');
@@ -417,9 +432,9 @@ function webcamSearch() {
 
 /*
 
-Flow: 
+Flow:
 user puts in destination and duration of trip
-calls weather api 
+calls weather api
 display weather info
 if above 65 display warm packing list
 if below then cold packing list
@@ -430,7 +445,7 @@ on refresh if user is not logged in then delete all info from firebase -- if mul
 
 if user is logged in display their saved packing list --  what if they are going to destination that is cold/warm -- should they have two packing lists? thinking no...
     allow users to name packing list when saved and choose to display that packing list
-    if user saves packing list store checked status somehow 
+    if user saves packing list store checked status somehow
 */
 
 

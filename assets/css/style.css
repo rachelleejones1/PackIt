@@ -2,6 +2,17 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 #tripDetails {
   display: flex;
   justify-content: space-between;
@@ -9,6 +20,10 @@
 
 #tripDetails .input-field {
   width: 48%;
+}
+
+#userInputs {
+  padding: 0 1.5rem;
 }
 
 .customColor {
@@ -34,6 +49,16 @@
 }
 
 #add-to-list:hover {
+  background-color: #2bbbad;
+}
+
+.buttonColor {
+  background-color: #26a69a;
+  color: #fff;
+  margin: 0;
+}
+
+.buttonColor:hover {
   background-color: #2bbbad;
 }
 
@@ -196,7 +221,103 @@
     }
   }
 
- #invalid-modal{
+ #invalid-modal {
     top: 50% !important;
     width: 350px;
+  }
+
+  #weatherError-modal {
+    top: 50% !important;
+  }
+
+  .userOnly {
+    display: none;
+  }
+
+  .displayFlex {
+    display: flex;
+    justify-content: center;
+  }
+
+  .leftChild {
+    margin-right: .5rem;
+  }
+
+  .rightChild {
+    margin-left: .5rem;
+  }
+
+  .signInButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .extraText {
+    width: 100%;
+    margin: .5rem;
+    font-weight: bold;
+    color: #26a69a;
+  }
+
+  #appNameText {
+    font-weight: bold;
+    color: #26a69a;
+  }
+
+  #firebaseui-auth-container button {
+    background-color: #26a69a !important;
+  }
+
+  #firebaseui-auth-container button:hover {
+    background-color: #2bbbad !important;
+  }
+
+  #signIn-modal {
+    max-height: 100%;
+  }
+
+  .modal .modal-content {
+    padding: 1rem;
+  }
+
+  .modal .modal-footer {
+    padding: 1rem;
+    height: auto;
+  }
+
+  input:-webkit-autofill {
+    background-color: #fff !important;
+  }
+
+  input:-webkit-autofill:hover {
+    background-color: #fff !important;
+  }
+
+  input:-webkit-autofill:focus {
+    background-color: #fff !important;
+  }
+
+  .dropdown-trigger {
+    color: rgba(0,0,0,0.3);
+  }
+
+  .middle {
+    padding: 0 2rem;
+  }
+
+  #beenClosed {
+    color: rgba(0,0,0,0.87);
+  }
+
+  @media screen and (max-width: 600px) {
+    #tripDetails {
+      flex-direction: column;
+    }
+    #tripDetails .input-field {
+      width: 100%;
+    }
+    .middle {
+      padding: 0;
+    }
   }
