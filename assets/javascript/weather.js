@@ -138,7 +138,7 @@ $(document).ready(function () {
                     console.log(content);
                     console.log(duration);
                     if (content === null) {
-                        let warmSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of shorts`, `${duration} warm weather shirts`, `${Math.round(duration / 2)} pajamas`, 'swimsuit', 'light jacket', 'sandals', 'tennis shoes', 'sunglasses', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                        let warmSuggestedItems = [`${duration} Socks`, `${duration} Underwear`, `${duration} Shorts`, `${duration} Shirts`, '1 Dressy Outfit', `${Math.round(duration / 2)} Sleepwear`, '1-2 Swimsuit(s)', 'Light Jacket', 'Sandals', 'Tennis Shoes', 'Sunglasses', 'Shampoo', 'Conditioner', 'Body Wash', 'Face Soap', 'Face Lotion', 'Deodorant', 'Hair Product(s)', 'Hair Brush', 'Tooth Brush', 'Toothpaste', 'Dental Floss', 'Medications', 'Books', 'Laptop & Charger', 'Cell Phone & Charger', 'Passport & Passport Photocopy', 'Headphones'];
                         for (let i=0; i < warmSuggestedItems.length; i++) {
                             database.push(
                                 warmSuggestedItems[i]
@@ -152,7 +152,7 @@ $(document).ready(function () {
                     console.log(content);
                     console.log(duration);
                     if (content === null) {
-                        let coldSuggestedItems = [`${duration} pairs of socks`, `${duration} pairs of underwear`, `${duration} pairs of pants`, `${duration} shirts`, `${Math.round(duration / 2)} pajamas`, 'sweater', 'jacket', 'tennis shoes', 'shampoo', 'conditioner', 'body wash', 'face soap', 'face lotion', 'hair product', 'hair brush', 'tooth brush', 'toothpaste', 'floss', 'medications', 'books', 'laptop', 'laptop charger', 'cell phone', 'cell phone charger'];
+                        let coldSuggestedItems = [`${duration} Socks`, `${duration} Underwear`, `${duration} Shorts`, `${duration} Shirts`, '1 Dressy Outfit', `${Math.round(duration / 2)} Sleepwear`, '1-2 Swimsuit(s)', 'Warm Jacket', 'Boots', 'Tennis Shoes', 'Sunglasses', 'Umbrella', 'Shampoo', 'Conditioner', 'Body Wash', 'Face Soap', 'Face Lotion', 'Hair Product', 'Hair Brush', 'Tooth Brush', 'Toothpaste', 'Dental Floss', 'Medications', 'Books', 'Laptop & Charger', 'Cell Phone & Charger', 'Passport & Passport Photocopy', 'Headphones'];
                         for (let i=0; i < coldSuggestedItems.length; i++) {
                             database.push(
                                 coldSuggestedItems[i]
