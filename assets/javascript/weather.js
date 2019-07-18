@@ -24,7 +24,11 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+<<<<<<< HEAD
     $('.modal').modal();
+=======
+    $(".modal").modal();
+>>>>>>> b0601b598cc7c4c2d560d015fdc5cefe8945abb2
     let firebaseConfig = {
         apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
         authDomain: "pack-your-bag-project.firebaseapp.com",
@@ -104,6 +108,16 @@ $(document).ready(function () {
 
     $('#submit').on('click', function(event) {
         event.preventDefault();
+<<<<<<< HEAD
+=======
+        let search = $("#search").val().trim();
+        let duration = $("#duration").val().trim();
+        if (search === "" || duration < 1){
+            $('#invalid-modal').modal('open');
+            
+        } else {
+                   $('#userInputs').attr('class', 'displayNone');
+>>>>>>> b0601b598cc7c4c2d560d015fdc5cefe8945abb2
         let duration = $('#duration').val().trim();
         let queryCity = $('#search').val().trim();
         $('#destName').html(queryCity);
@@ -175,7 +189,10 @@ $(document).ready(function () {
             webcamLocation.push(lng);
             displayWeather();
             webcamSearch();
-        });
+        }); 
+        }
+
+
     });
 
     database.on('child_added', function(snap) {

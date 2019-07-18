@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -11,7 +12,8 @@
     <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-    <title>Pack Your Bags</title>
+    <link href="assets/images/favicon.ico" rel="icon" type="image/x-icon">
+        <title>Pack Your Bags</title>
 </head>
 
 <body>
@@ -19,6 +21,15 @@
         <div class="modal-content">
             <h4>Modal Header</h4>
             <div id="firebaseui-auth-container"></div>
+        </div>
+    </div>
+
+    <div id="invalid-modal" class="modal">
+        <div class="modal-content">
+            <p>Please enter a valid destination and duration.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close customColor btn-flat">Okay</a>
         </div>
     </div>
 
@@ -35,9 +46,12 @@
                     <input id="search" type="text" placeholder="Destination City" required>
                 </div>
                 <div class="input-field">
-                    <input id="duration" type="text" placeholder="Duration (days)" required>
+                    <input id="duration" type="number" placeholder="Duration (days)" required>
                 </div>
             </form>
+
+
+
             <button class="btn-large" id="submit">Submit</button>
         </div>
     </div>
