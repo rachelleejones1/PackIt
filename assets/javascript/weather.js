@@ -21,6 +21,7 @@ class WeatherDate {
 
 
 $(document).ready(function () {
+    $(".modal").modal();
     let firebaseConfig = {
         apiKey: "AIzaSyCUcH5ibC9EUc2JBDfS8zprT9ccnOgxRhk",
         authDomain: "pack-your-bag-project.firebaseapp.com",
@@ -98,7 +99,13 @@ $(document).ready(function () {
 
     $('#submit').on('click', function(event) {
         event.preventDefault();
-        $('#userInputs').attr('class', 'displayNone');
+        let search = $("#search").val().trim();
+        let duration = $("#duration").val().trim();
+        if (search === "" || duration < 1){
+            $('#invalid-modal').modal('open');
+            
+        } else {
+                   $('#userInputs').attr('class', 'displayNone');
         let duration = $('#duration').val().trim();
         let queryCity = $('#search').val().trim();
         $('#destName').html(queryCity);
@@ -167,7 +174,10 @@ $(document).ready(function () {
             webcamLocation.push(lng);
             displayWeather();
             webcamSearch();
-        });
+        }); 
+        }
+
+
     });
 
     database.on('child_added', function(snap) {

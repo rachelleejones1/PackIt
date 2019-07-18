@@ -22,6 +22,15 @@
         </div>
     </div>
 
+    <div id="invalid-modal" class="modal">
+        <div class="modal-content">
+            <p>Please enter a valid destination and duration.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close customColor btn-flat">Okay</a>
+        </div>
+    </div>
+
 
     <div class="parallax-container">
         <div class="parallax"><img src="assets/images/mountain.jpeg"></div>
@@ -35,9 +44,12 @@
                     <input id="search" type="text" placeholder="Destination City" required>
                 </div>
                 <div class="input-field">
-                    <input id="duration" type="text" placeholder="Duration (days)" required>
+                    <input id="duration" type="number" placeholder="Duration (days)" required>
                 </div>
             </form>
+
+
+
             <button class="btn-large" id="submit">Submit</button>
         </div>
     </div>
