@@ -119,12 +119,22 @@ function displaySavedUserList(userId) {
     });
 };
 
+function numbersPresent(inputString) {
+    let hasNumber = /\d/;
+    hasNumber.Number
+}
+
 
 function checkValid(search, queryCountry, duration) {
+    let hasNumber = /\d/;
     if (search === "" || duration < 1) {
         $('#invalid-modal').modal('open');
     } else {
-        callWeatherAPI(search, queryCountry, duration);
+        if (hasNumber.test(search) === false) {
+            callWeatherAPI(search, queryCountry, duration);
+        } else {
+            $('#invalid-modal').modal('open');
+        }  
     }
 }
 
@@ -194,6 +204,7 @@ function clearPastSearch() {
     $('#countryCode').formSelect();
     $('.dropdown-trigger').css('color', 'rgba(0,0,0,0.3)');
 }
+
 
 function menuToggle(dataToggle) {
     if (dataToggle.attr('data-toggle') === 'closed') {
