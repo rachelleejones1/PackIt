@@ -120,17 +120,17 @@ function displaySavedUserList(userId) {
 };
 
 
-function checkValid(search, duration) {
+function checkValid(search, queryCountry, duration) {
     if (search === "" || duration < 1) {
         $('#invalid-modal').modal('open');
     } else {
-        callWeatherAPI(search, duration);
+        callWeatherAPI(search, queryCountry, duration);
     }
 }
 
-function callWeatherAPI(queryCity, duration) {
-    //+ ',' + queryCountryCode 
-    let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
+function callWeatherAPI(queryCity, queryCountry, duration) {
+    let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + ',' + queryCountry + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
+    console.log(weatherQuery);
     $.ajax({
         url: weatherQuery, method: 'GET', error: function () {
             $('#weatherError-modal').modal('open');
@@ -190,6 +190,9 @@ function clearPastSearch() {
     $('#duration').val('');
     $('#search').val('');
     $('#destName').html('');
+    $('#countryCode').val('');
+    $('#countryCode').formSelect();
+    $('.dropdown-trigger').css('color', 'rgba(0,0,0,0.3)');
 }
 
 function menuToggle(dataToggle) {
@@ -206,6 +209,10 @@ function menuToggle(dataToggle) {
     }
 }
 
+function changeSelectFontColor() {
+    $('.dropdown-trigger').css('color', 'rgba(0,0,0,0.87)');
+}
+
 function webcamSearch(queryLat, queryLng) {
     let queryURL = "https://webcamstravel.p.rapidapi.com/webcams/list/nearby=" + queryLat + "," + queryLng + ",250" + "?show=webcams:image,player";
     $.ajax({
@@ -219,7 +226,7 @@ function webcamSearch(queryLat, queryLng) {
         success: function (response) {
             $("#webcam").html('');
             $("#webcam").append(`<h4>Click Images to View Live Webcams</h4>`);
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < Math.min(6, response.result.webcams.length); i++) {
                 let webcam = response.result.webcams[i].image.daylight.preview;
                 let link = response.result.webcams[i].player.day.link;
                 let newDiv = $("<div>");
@@ -228,6 +235,11 @@ function webcamSearch(queryLat, queryLng) {
                 $("#webcam").append(newDiv);
             }
             $('#results').attr('class', 'display');
+            if (response.result.webcams.length === 0) {
+                $("#webcam").html('');
+                $('#webcam').append('<h4>There are no webcams near your destination.</h4>');
+
+            }
         },
         error: function () {
             $('#webcam').append('<p>An error occurred when calling the Webcams Travel API. It\'s possible there are no webcams near your destination.</p>');
@@ -283,8 +295,8 @@ function displayWeather() {
             descript.html('<img src="assets/images/BrokenClouds.svg" class="weatherIcon" alt="broken clouds icon"/><p class="sentenceCase">' + descriptions[0] + '</p>')
         } else if (descriptions[0] === 'shower rain' || descriptions[0] === 'light rain') {
             descript.html('<img src="assets/images/Showers.svg" class="weatherIcon" alt="shower rain icon"/><p class="sentenceCase">' + descriptions[0] + '</p>')
-        } else if (descriptions[0] === 'rain') {
-            descript.html('<img src="assets/images/Rain.svg" class="weatherIcon" alt="rain icon"/><p>Rain</p>')
+        } else if (descriptions[0] === 'rain' || descriptions[0] === 'moderate rain' || descriptions[0] === 'heavy intensity rain') {
+            descript.html('<img src="assets/images/Rain.svg" class="weatherIcon" alt="rain icon"/><p class="sentenceCase">' + descriptions[0] + '</p>')
         } else if (descriptions[0] === 'thunderstorm') {
             descript.html('<img src="assets/images/Thunderstorm.svg" class="weatherIcon" alt="thunderstorm icon"/><p>Thunderstorms</p>')
         } else if (descriptions[0] === 'snow') {
@@ -337,6 +349,10 @@ $(document).ready(function () {
         chooseSuggestedList(storedMax, storedDur);
     });
 
+    $('.select-wrapper').on('click', function() {
+        changeSelectFontColor();
+    });
+
     $('#saveList').on('click', function (event) {
         event.preventDefault();
         saveListToUser(dbKey, toDoArray);
@@ -344,8 +360,7 @@ $(document).ready(function () {
 
     $('#submit').on('click', function (event) {
         event.preventDefault();
-        checkValid($('#search').val().trim(), $('#duration').val().trim());
-        console.log($('#countryCode').target.val());
+        checkValid($('#search').val().trim(), $('#countryCode').val(), $('#duration').val().trim());
     });
 
     $('#newSearch').on('click', function(event) {

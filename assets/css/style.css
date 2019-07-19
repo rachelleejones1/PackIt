@@ -306,9 +306,6 @@ body {
     padding: 0 2rem;
   }
 
-  #beenClosed {
-    color: rgba(0,0,0,0.87);
-  }
 
   @media screen and (max-width: 600px) {
     #tripDetails {
