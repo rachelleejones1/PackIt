@@ -48,15 +48,12 @@ function addToLocalList() {
     $('#add-this-item').val('');
     if (toDoArray.includes(itemName) === false) {
         toDoArray.push(itemName);
-        console.log(toDoArray);
         displayNewList(toDoArray);
     }
 }
 
 function removeFromLocalList(listNumber) {
-    console.log(listNumber);
     toDoArray.splice(listNumber, 1);
-    console.log(toDoArray);
     displayNewList(toDoArray)
 }
 
@@ -68,23 +65,14 @@ function firebaseSignIn() {
         ],
         callbacks: {
             signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-                // User successfully signed in.
-                // Return type determines whether we continue the redirect automatically
-                // or whether we leave that to developer to handle.
-                console.log(authResult);
-                console.log('signed in');
                 $('.modal').modal('close');
                 dbKey = authResult.user.uid;
-                console.log(dbKey);
                 displaySavedUserList(dbKey);
                 $('#userOptions').attr('class', 'displayFlex');
                 $('#nonUserOptions').attr('class', 'displayNone');
                 return false;
             },
             uiShown: function () {
-                // The widget is rendered.
-                // Hide the loader.
-                // document.getElementById('loader').style.display = 'none';
             }
         },
     });
@@ -92,11 +80,7 @@ function firebaseSignIn() {
 
 function firebaseSignOut() {
     firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-        console.log('signed out')
     }).catch(function (error) {
-        // An error happened.
-        console.log('error while signing out');
     });
 }
 
@@ -135,7 +119,6 @@ function checkValid(search, queryCountry, duration) {
 
 function callWeatherAPI(queryCity, queryCountry, duration) {
     let weatherQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=' + queryCity + ',' + queryCountry + '&units=imperial&appid=338262b3fa00c9266be3386ca9f0c86d';
-    console.log(weatherQuery);
     $.ajax({
         url: weatherQuery, method: 'GET', error: function () {
             $('#weatherError-modal').modal('open');
@@ -143,15 +126,12 @@ function callWeatherAPI(queryCity, queryCountry, duration) {
     }).then(function (response) {
         $('#userInputs').attr('class', 'displayNone');
         $('#destName').html(queryCity);
-        console.log(response);
         let curDay = new Date(response.list[0].dt * 1000);
         let curIndex = 0;
         let lat = response.city.coord.lat;
-        console.log(lat);
         let lng = response.city.coord.lon;
         let highSum = 0;
         let lowSum = 0;
-        console.log(lng);
         for (let i = 0; i < response.cnt; i++) {
             let day = new Date(response.list[i].dt * 1000);
             if (day.getDate() != curDay.getDate()) {
@@ -318,7 +298,6 @@ function displayWeather() {
         dayInfo.append(dayName);
         dayInfo.append(tempInfo);
         dayInfo.append(dayDescr);
-        console.log(dayInfo);
         $('#weather').append(dayInfo);
     }
 }
