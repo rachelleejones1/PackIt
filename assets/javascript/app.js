@@ -119,11 +119,6 @@ function displaySavedUserList(userId) {
     });
 };
 
-function numbersPresent(inputString) {
-    let hasNumber = /\d/;
-    hasNumber.Number
-}
-
 
 function checkValid(search, queryCountry, duration) {
     let hasNumber = /\d/;
