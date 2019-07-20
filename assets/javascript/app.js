@@ -1,9 +1,3 @@
-/*
-let firebaseKey = config.firebaseKey;
-let weatherKey = config.weatherKey;
-let webcamKey = config.webcamKey;
-*/
-
 let toDoArray = [];
 let dbKey = null;
 let days = [];
